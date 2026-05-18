@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comfortaa','Segoe UI', 'Arial', sans-serif;
+      color: white;
+      height: 100vh;
+      background: url('https://i.postimg.cc/mD7wR0ZP/Whats-App-Image-2026-05-18-at-3-14-41-PM.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 0;
+    }
+    .admin-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      width: 320px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .admin-title {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .admin-input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    .admin-btn {
+      background: rgba(30, 80, 180, 0.55);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: Comfortaa, Segoe UI, Arial, sans-serif;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 16px rgba(30,80,180,0.18), 0 1.5px 8px rgba(255,255,255,0.12);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0.85;
+      margin-top: 10px;
+      width: 100%;
+    }
+    .admin-btn:hover {
+      background: rgba(30, 80, 180, 0.75);
+      box-shadow: 0 8px 24px rgba(30,80,180,0.22), 0 2px 12px rgba(255,255,255,0.18);
+      opacity: 1;
+    }
+    .error-message {
+      color: #ff4d4d;
+      margin-top: 10px;
+      font-size: 14px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-title">Admin Login</div>
+    <form id="adminLoginForm" autocomplete="off">
+      <input type="text" id="adminUsername" class="admin-input" placeholder="Username" required />
+      <input type="password" id="adminPassword" class="admin-input" placeholder="Password" required />
+      <button type="submit" class="admin-btn">Login</button>
+      <div id="errorMsg" class="error-message">Invalid credentials. Please try again.</div>
+    </form>
+    <hr style="margin:30px 0;">
+    <!-- Upload Event section removed -->
+  </div>
+  <script>
+    // Show events on page load
+    window.onload = function() {
+      fetchEvents();
+    }
+
+    // Handle admin login form
+    document.getElementById('adminLoginForm').onsubmit = function(e) {
+      e.preventDefault();
+      const username = document.getElementById('adminUsername').value.trim();
+      const password = document.getElementById('adminPassword').value.trim();
+      // Replace with your actual admin credentials check
+      if (username === 'admin' && password === 'admin123') {
+        sessionStorage.setItem('isAdmin', 'true');
+        window.location.href = 'page1.html';
+      } else {
+        document.getElementById('errorMsg').style.display = 'block';
+      }
+    }
+    // Fetch and display all events from Firestore
+    function fetchEvents() {
+      db.collection('events').orderBy('createdAt', 'desc').get().then(snapshot => {
+        let html = '<h3>All Events</h3>';
+        if (snapshot.empty) {
+          html += '<p>No events uploaded yet.</p>';
+        } else {
+          html += '<ul>';
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            html += `<li><strong>${data.eventName}</strong><br>${data.eventDescription}<br><small>Uploaded by: ${data.uploader || 'Unknown'}</small></li><br>`;
+          });
+          html += '</ul>';
+        }
+        // Display events below the form
+        let container = document.getElementById('eventsList');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'eventsList';
+          document.body.appendChild(container);
+        }
+        container.innerHTML = html;
+      }).catch(() => {
+        let container = document.getElementById('eventsList');
+        if (!container) {
+          container = document.createElement('div');
+          container.id = 'eventsList';
+          document.body.appendChild(container);
+        }
+        container.innerHTML = '<p>Could not load events.</p>';
+      });
+    }
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyD_bTIqcxE0I_5z0ZDrbQcvkaSnR7NSB3I",
+  authDomain: "anitsevents.firebaseapp.com",
+  projectId: "anitsevents",
+  storageBucket: "anitsevents.firebasestorage.app",
+  messagingSenderId: "611928503083",
+  appId: "1:611928503083:web:e61d3aab35b0631a4f0b6e",
+  measurementId: "G-PW67ELZXMZ"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Upload event to Firestore
+    function uploadEvent(eventName, eventDescription, uploader) {
+      db.collection('events').add({
+        eventName,
+        eventDescription,
+        uploader,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        alert('Event uploaded!');
+        // Optionally refresh events list here
+      }).catch((error) => {
+        alert('Upload failed: ' + error.message);
+      });
+    }
+  </script>
+</body>
+</html>

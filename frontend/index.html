@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ANITS EVENTS- Sign In</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Comfortaa','Segoe UI', 'Arial', sans-serif;
+      color: white;
+      height: 100vh;
+      background: url('https://i.postimg.cc/mD7wR0ZP/Whats-App-Image-2026-05-18-at-3-14-41-PM.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 0;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      width: 320px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      transition: all 0.4s ease;
+    }
+
+    .container:hover {
+      transform: scale(1.03) translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .title {
+      font-weight: 600;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+
+    .google-btn {
+      background-color: #f1f3f5;
+      color: #000;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .google-btn:hover {
+      background-color: #ffffff;
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+    }
+
+    .google-btn img {
+      width: 18px;
+      height: 18px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    .checkbox input {
+      width: 16px;
+      height: 16px;
+      accent-color: #007BFF;
+      transition: box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .checkbox input:hover {
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+    }
+
+    .checkbox label:hover {
+      color: #ffffff;
+      text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+    }
+
+    .help-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .admin-login {
+      text-align: center;
+      margin-top: 18px;
+      color: white;
+      font-size: 15px;
+      font-family: Comfortaa, Segoe UI, Arial, sans-serif;
+    }
+
+    .admin-login button {
+      margin-top: 10px;
+      background: rgba(30, 80, 180, 0.55); /* less bright blue, semi-transparent */
+      color: white;
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: Comfortaa, Segoe UI, Arial, sans-serif;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 16px rgba(30,80,180,0.18), 0 1.5px 8px rgba(255,255,255,0.12);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      opacity: 0.85;
+    }
+
+    .admin-login button:hover {
+      background: rgba(30, 80, 180, 0.75);
+      box-shadow: 0 8px 24px rgba(30,80,180,0.22), 0 2px 12px rgba(255,255,255,0.18);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">ANITS EVENTS</div>
+    <div class="subtitle">Sign in to continue</div>
+    <button class="google-btn" id="googleSignInBtn" onclick="signInWithGoogle()">
+      <img src="https://i.postimg.cc/W1sPFVjJ/google-logo-9808.png" alt="Google logo">
+      Sign in with Google
+    </button>
+    <div class="checkbox">
+      <input type="checkbox" id="staySignedIn" onclick="continueWithoutSignIn()">
+      <label for="staySignedIn">click here to start without signin </label>
+    </div>
+    <div id="uploadSection" style="display:none; margin-top:20px;">
+      <form id="uploadFormElement">
+        <input type="text" id="eventName" name="eventName" placeholder="Event Name" style="width:90%;margin-bottom:8px;" required />
+        <textarea id="eventDescription" name="eventDescription" placeholder="Event Description" style="width:90%;height:60px;margin-bottom:8px;" required></textarea>
+        <input type="file" id="eventImage" name="image" accept="image/*" style="width:90%;margin-bottom:8px;" required />
+        <select id="eventType" name="type" style="width:90%;margin-bottom:8px;">
+          <option value="coding">Coding Event</option>
+          <option value="noncoding">Non-Coding Event</option>
+          <option value="nonanits">Non-ANITS Event</option>
+          <option value="other">Other Event</option>
+        </select>
+        <button type="submit" id="uploadBtn">Upload Event</button>
+      </form>
+      <div id="uploadMsg" style="color:limegreen; margin-top:10px;"></div>
+    </div>
+    <div class="admin-login">
+      <br>
+      <button id="adminLoginBtn" onclick="window.location.href='admin-login.html'">Admin Login</button>
+    </div>
+  </div>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth-compat.js"></script>
+
+  <script>
+    // Your Firebase Config - Updated with new project
+    const firebaseConfig = {
+      apiKey: "AIzaSyC92EfdlMCLWaD-DAbrCYImetI0f5HQr3Q",
+      authDomain: "goggle-signin-8469c.firebaseapp.com",
+      projectId: "goggle-signin-8469c",
+      storageBucket: "goggle-signin-8469c.firebasestorage.app",
+      messagingSenderId: "239791840335",
+      appId: "1:239791840335:web:80192b303c4c645618de3a"
+    };
+
+    // Use Firebase compat API for browser compatibility
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    window.signInWithGoogle = function() {
+      console.log('🔵 Starting Google Sign-In...');
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          const user = result.user;
+          console.log("✅ Signed in as:", user.displayName, user.email);
+          // Set sign-in flags
+          sessionStorage.setItem('signedIn', 'true');
+          localStorage.setItem('googleSignedIn', 'true');
+          // Redirect to page1.html after successful sign-in
+          console.log('🔄 Redirecting to page1.html...');
+          window.location.href = 'page1.html';
+        })
+        .catch((error) => {
+          console.error("❌ Sign-in error:", error.code, error.message);
+          alert("Failed to sign in: " + error.message);
+        });
+    }
+
+    window.continueWithoutSignIn = function() {
+      console.log('🔵 Continuing without sign-in...');
+      sessionStorage.setItem('continuedWithoutSignIn', 'true');
+      // Redirect to page1.html
+      window.location.href = 'page1.html';
+    }
+
+    // Hide sign-in button and show upload button for admin
+    // Clean up old localStorage event data that might be causing quota issues
+    function cleanupOldEventData() {
+      const keysToRemove = ['codingEvents', 'nonCodingEvents', 'nonAnitsEvents', 'otherEvents'];
+      keysToRemove.forEach(key => {
+        if (localStorage.getItem(key)) {
+          console.log('Removing old localStorage key:', key);
+          localStorage.removeItem(key);
+        }
+      });
+    }
+
+    window.onload = function() {
+      // Clean up old event data from localStorage
+      cleanupOldEventData();
+      
+      const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+      const isGoogleUser = sessionStorage.getItem('signedIn') === 'true';
+      const continuedWithoutSignIn = sessionStorage.getItem('continuedWithoutSignIn') === 'true';
+      
+      // Redirect to page1.html if already signed in or continued without sign-in
+      if (isAdmin || isGoogleUser || continuedWithoutSignIn) {
+        console.log('🔄 User already authenticated, redirecting to page1.html...');
+        window.location.href = 'page1.html';
+      }
+    }
+
+    // Upload button logic for admin, Google users, and users without sign-in
+    document.getElementById('uploadFormElement').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      console.log('🔵 Upload button clicked!');
+      const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
+      const isGoogleUser = sessionStorage.getItem('signedIn') === 'true';
+      const continuedWithoutSignIn = sessionStorage.getItem('continuedWithoutSignIn') === 'true';
+      console.log('🔍 Auth check:', { isAdmin, isGoogleUser, continuedWithoutSignIn });
+      
+      if (isAdmin || isGoogleUser || continuedWithoutSignIn) {
+        const formData = new FormData(this);
+        const type = formData.get('type');
+
+        // Add uploader info
+        let uploader = 'User';
+        if (isAdmin) uploader = 'Admin';
+        else if (isGoogleUser) uploader = 'GoogleUser';
+        else if (continuedWithoutSignIn) uploader = 'Guest';
+        formData.append('uploader', uploader);
+
+        console.log('✅ All fields filled. Starting upload...');
+        console.log('📡 Sending POST request to:', 'https://anits-events.onrender.com/api/events/upload-event');
+        
+        fetch('https://anits-events.onrender.com/api/events/upload-event', {
+          method: 'POST',
+          body: formData // Send as FormData, not JSON
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('📦 Upload response data:', data);
+          if (data.success) {
+            console.log('🎉 Upload successful!');
+            let pageUrl = '';
+            if (type === 'coding') pageUrl = 'codingevents.html';
+            else if (type === 'noncoding') pageUrl = 'noncoding.html';
+            else if (type === 'nonanits') pageUrl = 'nonanitsevents.html';
+            
+            document.getElementById('uploadMsg').innerHTML = `Event uploaded! <a href="${pageUrl}" style="color: #6B73FF;">View Event</a>`;
+            document.getElementById('uploadMsg').style.color = 'limegreen';
+            document.getElementById('uploadFormElement').reset(); // Reset the form
+          } else {
+            console.error('❌ Upload failed:', data.message);
+            document.getElementById('uploadMsg').textContent = 'Upload failed: ' + (data.message || 'Unknown error');
+            document.getElementById('uploadMsg').style.color = 'red';
+          }
+        })
+        .catch((error) => {
+          console.error('💥 Upload error:', error);
+          document.getElementById('uploadMsg').textContent = 'Server error: ' + error.message;
+          document.getElementById('uploadMsg').style.color = 'red';
+        });
+      } else {
+        console.error('🚫 User not authorized. isAdmin:', isAdmin, 'isGoogleUser:', isGoogleUser, 'continuedWithoutSignIn:', continuedWithoutSignIn);
+        document.getElementById('uploadMsg').textContent = 'Please sign in or continue without sign-in to upload events.';
+      }
+    });
+  </script>
+</body>
+</html>

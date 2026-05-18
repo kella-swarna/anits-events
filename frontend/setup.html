@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Events - Setup Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #9796f0;
+            background: -webkit-linear-gradient(to right, #fbc7d4, #9796f0);
+            background: linear-gradient(to right, #fbc7d4, #9796f0);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1, h2 { color: #fff; }
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #00f5ff;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .success { color: #00ff88; }
+        .warning { color: #ffaa00; }
+        .link {
+            color: #00f5ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 College Events System - Setup Complete!</h1>
+        
+        <p>Your full-stack college events management system is ready. Follow these steps to start:</p>
+
+        <div class="step">
+            <h3>📋 Prerequisites</h3>
+            <ul>
+                <li>Node.js installed</li>
+                <li>MongoDB running (local or Atlas)</li>
+                <li>Internet connection for dependencies</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Installation & Setup</h3>
+            <ol>
+                <li>Open terminal in <code>mini_project</code> folder</li>
+                <li>Install dependencies: <code>npm install</code></li>
+                <li>Install backend deps: <code>cd backend && npm install</code></li>
+                <li>Return to root: <code>cd ..</code></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>🗄️ Database Setup</h3>
+            <ol>
+                <li>Make sure MongoDB is running</li>
+                <li>Update <code>backend/.env</code> if needed</li>
+                <li>Default connection: <code>mongodb://localhost:27017/college_events</code></li>
+            </ol>
+        </div>
+
+        <div class="step">
+            <h3>▶️ Start the System</h3>
+            <p><strong>Option 1 - Both servers together:</strong></p>
+            <code>npm run dev</code>
+            
+            <p><strong>Option 2 - Separate terminals:</strong></p>
+            <p>Backend: <code>cd backend && npm run dev</code></p>
+            <p>Frontend: <code>cd frontend && npx live-server --port=3001</code></p>
+        </div>
+
+        <div class="step">
+            <h3>🌐 Access Your Application</h3>
+            <ul>
+                <li><a href="http://localhost:3001" class="link">Frontend: http://localhost:3001</a></li>
+                <li><a href="http://localhost:3000" class="link">Backend API: http://localhost:3000</a></li>
+                <li><a href="http://localhost:3000/health" class="link">Health Check: http://localhost:3000/health</a></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🎯 Key Features</h3>
+            <ul>
+                <li><span class="success">✅</span> Event creation and management</li>
+                <li><span class="success">✅</span> Categories: Coding, Non-coding, Non-ANITS, Other</li>
+                <li><span class="success">✅</span> User authentication with Google</li>
+                <li><span class="success">✅</span> Admin panel for event management</li>
+                <li><span class="success">✅</span> MongoDB database integration</li>
+                <li><span class="success">✅</span> Responsive modern UI</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🔐 Admin Access</h3>
+            <p>Default admin credentials (change in <code>backend/.env</code>):</p>
+            <p>Email: <code>admin@anits.edu</code></p>
+            <p>Password: <code>admin123</code></p>
+        </div>
+
+        <div class="step">
+            <h3>📝 Next Steps</h3>
+            <ol>
+                <li>Start the servers</li>
+                <li>Open <a href="http://localhost:3001" class="link">http://localhost:3001</a></li>
+                <li>Sign in or use admin login</li>
+                <li>Start creating college events!</li>
+            </ol>
+        </div>
+
+        <p class="warning">⚠️ <strong>Important:</strong> Make sure MongoDB is running before starting the backend!</p>
+        
+        <p><strong>Happy event managing! 🎉</strong></p>
+    </div>
+
+    <script>
+        // Check if servers are running
+        function checkServers() {
+            // Check backend
+            fetch('http://localhost:3000/health')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'OK') {
+                        document.body.insertAdjacentHTML('beforeend', 
+                            '<div style="position: fixed; top: 20px; right: 20px; background: rgba(0, 255, 136, 0.2); padding: 10px; border-radius: 8px; border: 1px solid #00ff88;">🟢 Backend: Online</div>'
+                        );
+                    }
+                })
+                .catch(() => {
+                    document.body.insertAdjacentHTML('beforeend', 
+                        '<div style="position: fixed; top: 20px; right: 20px; background: rgba(255, 170, 0, 0.2); padding: 10px; border-radius: 8px; border: 1px solid #ffaa00;">🟡 Backend: Offline</div>'
+                    );
+                });
+        }
+
+        // Check servers on page load
+        setTimeout(checkServers, 1000);
+    </script>
+</body>
+</html>

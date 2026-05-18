@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Test</title>
+</head>
+<body>
+  <h1>Testing Image Loading</h1>
+  
+  <h2>Test 1: Direct Image URL</h2>
+  <img src="http://localhost:5000/uploads/image-1760502367431-154300175.png" 
+       alt="Test Image" 
+       style="max-width: 300px; border: 2px solid blue;"
+       onload="console.log('✅ Image loaded successfully!')"
+       onerror="console.error('❌ Image failed to load!')">
+  
+  <h2>Test 2: Latest Event from API</h2>
+  <div id="event-test"></div>
+  
+  <script>
+    console.log('🔍 Fetching latest coding event...');
+    fetch('http://localhost:5000/api/events?type=coding')
+      .then(response => response.json())
+      .then(data => {
+        console.log('📦 API Response:', data);
+        
+        if (data.success && data.events.length > 0) {
+          const latestEvent = data.events[0];
+          console.log('🎯 Latest Event:', latestEvent);
+          console.log('🖼️ Image path from API:', latestEvent.image);
+          
+          // Construct full image URL
+          let imageUrl = latestEvent.image;
+          if (imageUrl.startsWith('/uploads')) {
+            imageUrl = 'http://localhost:5000' + imageUrl;
+          }
+          console.log('🔗 Full image URL:', imageUrl);
+          
+          // Create and display the image
+          const container = document.getElementById('event-test');
+          container.innerHTML = `
+            <h3>${latestEvent.title}</h3>
+            <p>${latestEvent.description}</p>
+            <img src="${imageUrl}" 
+                 alt="${latestEvent.title}" 
+                 style="max-width: 300px; border: 2px solid green;"
+                 onload="console.log('✅ Event image loaded: ${imageUrl}')"
+                 onerror="console.error('❌ Event image failed: ${imageUrl}')">
+            <p><strong>Original path:</strong> ${latestEvent.image}</p>
+            <p><strong>Full URL:</strong> ${imageUrl}</p>
+          `;
+        }
+      })
+      .catch(error => {
+        console.error('💥 Error fetching events:', error);
+        document.getElementById('event-test').innerHTML = 
+          '<p style="color: red;">Error: ' + error.message + '</p>';
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth State Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-primary { background: #007bff; color: white; }
+    .btn-danger { background: #dc3545; color: white; }
+    .btn-success { background: #28a745; color: white; }
+    .status {
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 5px;
+      background: #e9ecef;
+    }
+    .status.signed-in { background: #d4edda; color: #155724; }
+    .status.not-signed-in { background: #f8d7da; color: #721c24; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Auth State Tester</h1>
+    <p>Use this page to test the sign-in functionality on page1.html</p>
+    
+    <div id="status" class="status"></div>
+    
+    <h3>Actions:</h3>
+    <button class="btn-success" onclick="simulateSignIn()">✅ Simulate Google Sign In</button>
+    <button class="btn-danger" onclick="clearAuth()">❌ Clear Auth (Sign Out)</button>
+    <button class="btn-primary" onclick="goToPage1()">➡️ Go to Page1.html</button>
+    
+    <hr style="margin: 30px 0;">
+    
+    <h3>Manual Tests:</h3>
+    <ol>
+      <li><strong>Test NOT signed in:</strong>
+        <ul>
+          <li>Click "Clear Auth (Sign Out)"</li>
+          <li>Click "Go to Page1.html"</li>
+          <li>✅ Sign-in button should be <strong>VISIBLE</strong></li>
+          <li>✅ Upload button should be <strong>DISABLED</strong> (grayed out)</li>
+        </ul>
+      </li>
+      <li><strong>Test signed in:</strong>
+        <ul>
+          <li>Click "Simulate Google Sign In"</li>
+          <li>Click "Go to Page1.html"</li>
+          <li>✅ Sign-in button should be <strong>HIDDEN</strong></li>
+          <li>✅ Upload button should be <strong>ENABLED</strong> (clickable)</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    function updateStatus() {
+      const googleSignedIn = localStorage.getItem('googleSignedIn') === 'true';
+      const statusDiv = document.getElementById('status');
+      
+      if (googleSignedIn) {
+        statusDiv.className = 'status signed-in';
+        statusDiv.innerHTML = '<strong>✅ SIGNED IN</strong><br>localStorage.googleSignedIn = true';
+      } else {
+        statusDiv.className = 'status not-signed-in';
+        statusDiv.innerHTML = '<strong>❌ NOT SIGNED IN</strong><br>localStorage.googleSignedIn = false or not set';
+      }
+    }
+
+    function simulateSignIn() {
+      localStorage.setItem('googleSignedIn', 'true');
+      sessionStorage.setItem('signedIn', 'true');
+      updateStatus();
+      alert('✅ Simulated sign-in! Now go to page1.html to see the sign-in button disappear.');
+    }
+
+    function clearAuth() {
+      localStorage.removeItem('googleSignedIn');
+      sessionStorage.removeItem('googleSignedIn');
+      sessionStorage.removeItem('signedIn');
+      sessionStorage.removeItem('continuedWithoutSignIn');
+      updateStatus();
+      alert('❌ Cleared auth state! Now go to page1.html to see the sign-in button appear.');
+    }
+
+    function goToPage1() {
+      window.location.href = 'page1.html';
+    }
+
+    // Update status on load
+    updateStatus();
+  </script>
+</body>
+</html>
