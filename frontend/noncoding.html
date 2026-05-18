@@ -1,0 +1,748 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Campus Events</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playwrite+PL:wght@100..400&family=Smooch+Sans:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comfortaa', 'Segoe UI', 'Arial', sans-serif;
+      min-height: 100vh;
+      background: #9796f0;
+      background: -webkit-linear-gradient(to right, #fbc7d4, #9796f0);
+      background: linear-gradient(to right, #fbc7d4, #9796f0);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    /* Search Box Styles */
+    * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+    *:before, *:after { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+
+    #s { 
+      background: rgba(0,0,0,.375) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAQBJREFUeNqslI0RgyAMhdENWIEVWMEVXIGO0BW6Ah2hHcGOoCPYEewINFzBe9IA9id37w4kfEZesHHOCSYUqSPJML+RJlELDwN1pMHxMZNMkr8RTgyz2YPH5LmtwXpIHkOFmKhIlxowDmYAycKnHAHYcTCsSpXOJCie6YWDnXKLGeHLN2stGaqDsXXrX3GFcYcLrfhjtKEhffQ792gYT2nT6pJDjCw4z7ZGdGipOIqNbXIwFUARmCbKpMfYxsWJBmCEDoW7+gYUTAU2s3HJrK3AJvMLkqGHFLgWXTckm+SfSQexs+tLRqwVfgvjgMsvMAT689S5M/sk/I14kO5PAQYAuk6L1q+EdHMAAAAASUVORK5CYII=) no-repeat 14px 14px; 
+      text-indent: 1em; 
+      display: inline-block; 
+      border: 0 none; 
+      width: 0; 
+      height: 3em; 
+      border-radius: 3em; 
+      -webkit-transition: .3s; 
+      transition: .3s; 
+      outline: none; 
+      padding: 1em 1.5em; 
+      cursor: pointer; 
+      -webkit-appearance: none; 
+      font-weight: inherit; 
+      font-size: inherit; 
+      font-family: inherit; 
+      color: #999; 
+      vertical-align: baseline;
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      z-index: 100;
+    }
+    
+    input[type=search]::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+    #s:hover, #s:focus { 
+      background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAUCAYAAABvVQZ0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAT5JREFUeNqsVLtOw0AQtIMlRJHCEhUVMg398QEUSZnSfILzCXxDPsFu6XAJHWnTcS1lWsprKdmLxtKwvjVBYaTV7cm+udnX5fPb+yyBSmwhVmK/FfPZLyjUPhI8YtXYi23EOovs7PzyevAbsWeoGg5HNUHsCipX8F9TZDOstVgLPxIsxW6w3sHv6dJ2StkLbh6IPtR/AWRfSIET20H9D2U1hfaAgxY2KMagcBSmg9/rmwx0lBqTzGfHoVfVHxXgXzCjHNRHnnHke4vMGc2q0RBR0GSeCLlpLaJGFWKUszVuib32nih7iTFrjXAPyGnQ48c3Gu5AOVlMtMk6NZuf+FiC+AIhV0T+pBQ5ntXceIJKqKko2duJ2TwoLAz5QTVnagJaXWEO8y/wSMuKH9RTJoCTHyNZFidOUEfNu/8WYAAOXUT04MOtlwAAAABJRU5ErkJggg==) 14px 14px no-repeat;
+    }
+
+    #s:focus { width: 250px; cursor: text; }
+
+    .main-title {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 400;
+      margin-bottom: 60px;
+      color: #6B73FF;
+      font-family: "Fjalla One", sans-serif;
+      font-style: normal;
+      letter-spacing: -0.5px;
+    }
+
+    #events-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1400px;
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    /* Responsive grid adjustments */
+    @media (min-width: 768px) and (max-width: 1200px) {
+      #events-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1201px) {
+      #events-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 767px) {
+      #events-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: #D3CCE3;
+      background: -webkit-linear-gradient(to right, #E9E4F0, #D3CCE3);
+      background: linear-gradient(to right, #E9E4F0, #D3CCE3);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+      padding: 20px;
+      transition: all 0.4s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 280px;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .card .icon {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 15px;
+      margin-bottom: 15px;
+    }
+
+    .card .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .icon img {
+      transform: scale(1.05);
+    }
+
+    .card-body {
+      flex: 1;
+      color: black;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-body h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #000000;
+      font-family: 'Comfortaa', sans-serif;
+      line-height: 1.3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .card-body p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(0, 0, 0, 0.8);
+      margin-bottom: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      flex: 1;
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+    }
+
+    .read-more {
+      background: rgba(107, 115, 255, 0.2);
+      color: #6B73FF;
+      border: 1px solid rgba(107, 115, 255, 0.3);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: 'Comfortaa', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(6px);
+      align-self: flex-start;
+      margin-top: auto;
+    }
+
+    .read-more:hover {
+      background: rgba(107, 115, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(107, 115, 255, 0.2);
+    }
+
+    .back-btn {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: linear-gradient(135deg, #2C2C54 0%, #40407A 100%);
+      color: white;
+      border: none;
+      padding: 15px 25px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-family: 'Comfortaa', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(44, 44, 84, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(44, 44, 84, 0.4);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      margin: 20px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: #f5f5f5;
+      color: #333;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      background: #e0e0e0;
+      transform: scale(1.1);
+    }
+
+    .modal-img-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .modal-img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-details {
+      flex: 1;
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #333;
+      font-family: 'Comfortaa', sans-serif;
+    }
+
+    .modal-desc {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 20px;
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      word-wrap: break-word;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    
+    .modal-desc p {
+      margin: 12px 0;
+      line-height: 1.8;
+    }
+    
+    .modal-desc p:first-child {
+      margin-top: 0;
+    }
+    
+    .modal-desc p:last-child {
+      margin-bottom: 0;
+    }
+
+    .modal-desc a {
+      color: #6B73FF;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .modal-desc a:hover {
+      color: #9C27B0;
+      text-decoration: underline;
+    }
+
+    .download-btn {
+      background: linear-gradient(135deg, #6B73FF 0%, #9C27B0 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Comfortaa', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+
+    .download-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(107, 115, 255, 0.3);
+    }
+
+    .register-btn {
+      background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Comfortaa', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .register-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+    }
+
+    .register-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .register-btn:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 32px;
+        margin-bottom: 40px;
+      }
+
+      #events-container {
+        padding: 0 10px;
+        gap: 20px;
+      }
+
+      .card {
+        min-height: 260px;
+      }
+
+      .card .icon {
+        height: 160px;
+      }
+
+      .card-body h3 {
+        font-size: 18px;
+      }
+
+      .card-body p {
+        font-size: 13px;
+        font-family: 'Libre Baskerville', serif;
+        font-weight: 400;
+      }
+
+      .modal-img-row {
+        flex-direction: column;
+      }
+
+      .modal-img {
+        width: 100%;
+        height: 200px;
+      }
+
+      .back-btn {
+        bottom: 20px;
+        left: 20px;
+        padding: 12px 20px;
+        font-size: 14px;
+      }
+    }
+
+    /* Tablet adjustments */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .main-title {
+        font-size: 42px;
+      }
+
+      #events-container {
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Search Box -->
+  <input type="search" id="s" placeholder="Search events...">
+
+  <section>
+    <h1 class="main-title">Ongoing Events</h1>
+  <!-- Security and performance headers (for server config, not HTML):
+    X-Content-Type-Options: nosniff
+    Cache-Control: no-cache, no-store, must-revalidate
+    Content-Security-Policy: frame-ancestors 'self'
+  -->
+    <div id="events-container"></div>
+    <!-- Modal for event details -->
+    <div id="event-modal" class="modal">
+      <div class="modal-content">
+        <button class="modal-close" id="modal-close-btn" title="Close">&times;</button>
+        <div class="modal-img-row">
+          <img id="modal-img" class="modal-img" src="" alt="Event image" />
+          <div class="modal-details">
+            <div class="modal-title" id="modal-title"></div>
+            <div class="modal-desc" id="modal-desc"></div>
+            <div class="button-group">
+              <button class="download-btn" id="download-btn">Download Image</button>
+              <button class="register-btn" id="register-btn" style="display:none;">Register</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Back Button -->
+  <button class="back-btn" onclick="goBack()">&#8592; Back</button>
+  <script>
+    function goBack() {
+      // Try to go back in history first
+      if (window.history.length > 1) {
+        window.history.back();
+      } else {
+        // Fallback to a specific page if no history
+        window.location.href = 'page1.html';
+      }
+    }
+
+
+    // Fetch events from backend API
+    function fetchEvents(retryCount = 0) {
+      console.log('Fetching non-coding events...');
+      fetch('https://anits-events.onrender.com/api/events?type=noncoding')
+        .then(response => {
+          console.log('Response status:', response.status);
+          if (response.status === 429 && retryCount < 3) {
+            // Retry after delay for rate limiting
+            const delay = Math.pow(2, retryCount) * 1000; // Exponential backoff
+            console.log(`Rate limited. Retrying in ${delay}ms...`);
+            setTimeout(() => fetchEvents(retryCount + 1), delay);
+            return null;
+          }
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (!data) return; // Skip if retrying
+          console.log('Events data received:', data);
+          if (data.success && Array.isArray(data.events)) {
+            renderEvents(data.events);
+          } else {
+            // Fallback to hardcoded events if backend fails
+            renderEvents(hardcodedEvents);
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching events:', error);
+          // If backend fails, show hardcoded events
+          renderEvents(hardcodedEvents);
+        });
+    }
+
+    // Fallback hardcoded events
+    const hardcodedEvents = [
+      {
+        title: "Campus Sustainability Workshop",
+        description: "Learn about sustainable practices on campus and how you can contribute to a greener environment.",
+        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d29ya3Nob3B8ZW58MHx8MHx8fDA%3D",
+        alt: "Workshop"
+      },
+      {
+        title: "Student Art Exhibition",
+        description: "Explore the creative works of fellow students in this annual art exhibition.",
+        image: "https://www.shutterstock.com/image-photo/female-pupil-high-school-art-260nw-199144985.jpg",
+        alt: "Art Exhibition"
+      }
+    ];
+
+    function renderEvents(events) {
+      console.log('renderEvents called with:', events);
+      console.log('Number of events to render:', events.length);
+      const container = document.getElementById('events-container');
+      container.innerHTML = '';
+      
+      if (events.length === 0) {
+        console.log('No events to display');
+        container.innerHTML = '<p style="text-align:center; color:#2C2C54; font-size:18px;">No non-coding events available at the moment.</p>';
+        return;
+      }
+      
+      console.log('Starting to render', events.length, 'events');
+      events.forEach((event, idx) => {
+        console.log('Rendering event', idx, ':', event);
+        // Handle both backend format (eventName, eventDescription) and frontend format (title, description)
+        const eventTitle = event.title || event.eventName || 'Untitled Event';
+        const eventDesc = event.description || event.eventDescription || 'No description available';
+        // Prepend backend URL if image path starts with /uploads
+        let eventImage = event.image || event.imageUrl || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400';
+        if (eventImage.startsWith('/uploads')) {
+          eventImage = 'https://anits-events.onrender.com' + eventImage;
+        }
+        console.log('Event details:', { eventTitle, eventDesc, eventImage });
+        
+        const card = document.createElement('div');
+        card.className = 'card blue';
+        card.style.cursor = 'pointer';
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', eventTitle);
+
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'icon';
+        const img = document.createElement('img');
+        img.src = eventImage;
+        img.alt = event.alt || eventTitle;
+        img.onerror = function() {
+          this.src = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400';
+        };
+        iconDiv.appendChild(img);
+
+        const bodyDiv = document.createElement('div');
+        bodyDiv.className = 'card-body';
+        const h3 = document.createElement('h3');
+        h3.textContent = eventTitle;
+        const p = document.createElement('p');
+        // Truncate description for card grid view
+        const maxLen = 120;
+        let truncated = eventDesc;
+        let needsReadMore = false;
+        if (eventDesc.length > maxLen) {
+          truncated = eventDesc.slice(0, maxLen).trim();
+          needsReadMore = true;
+        }
+        p.textContent = truncated + (needsReadMore ? '...' : '');
+        
+        bodyDiv.appendChild(h3);
+        bodyDiv.appendChild(p);
+        
+        if (needsReadMore) {
+          const readMore = document.createElement('button');
+          readMore.className = 'read-more';
+          readMore.textContent = 'Read more';
+          readMore.onclick = (e) => {
+            e.stopPropagation();
+            openModal({...event, title: eventTitle, description: eventDesc, image: eventImage});
+          };
+          bodyDiv.appendChild(readMore);
+        }
+
+        card.appendChild(iconDiv);
+        card.appendChild(bodyDiv);
+        // Add click event to open modal
+        card.addEventListener('click', () => openModal(event));
+        card.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') openModal(event);
+        });
+        container.appendChild(card);
+      });
+    }
+
+    // Modal logic
+    const modal = document.getElementById('event-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const downloadBtn = document.getElementById('download-btn');
+    const closeBtn = document.getElementById('modal-close-btn');
+    let currentImgUrl = '';
+
+    // Function to format text with line breaks and links
+    function formatDescription(text) {
+      if (!text) return '';
+      
+      // First, escape HTML special characters
+      let formatted = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+      
+      // Convert URLs to clickable links
+      formatted = formatted.replace(
+        /(https?:\/\/[^\s]+)/g,
+        '<a href="$1" target="_blank" rel="noopener">$1</a>'
+      );
+      
+      // Convert multiple line breaks to proper spacing
+      formatted = formatted.replace(/\n\n+/g, '</p><p>');
+      formatted = formatted.replace(/\n/g, '<br>');
+      formatted = '<p>' + formatted + '</p>';
+      
+      return formatted;
+    }
+
+    function openModal(event) {
+      // Prepend backend URL if image path starts with /uploads
+      let eventImage = event.image || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400';
+      if (eventImage.startsWith('/uploads')) {
+        eventImage = 'https://anits-events.onrender.com' + eventImage;
+      }
+      modalImg.src = eventImage;
+      modalImg.alt = event.alt || event.title;
+      modalTitle.textContent = event.title;
+      modalDesc.innerHTML = formatDescription(event.description);
+      currentImgUrl = eventImage;
+      
+      // Handle registration button
+      const registerBtn = document.getElementById('register-btn');
+      if (event.registrationLink) {
+        registerBtn.style.display = 'inline-block';
+        registerBtn.disabled = false;
+        registerBtn.onclick = function() {
+          window.open(event.registrationLink, '_blank');
+        };
+      } else {
+        registerBtn.style.display = 'none';
+      }
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('active') && (e.key === 'Escape')) closeModal();
+    });
+
+    downloadBtn.addEventListener('click', function() {
+      if (!currentImgUrl) return;
+      const link = document.createElement('a');
+      link.href = currentImgUrl;
+      link.download = currentImgUrl.split('/').pop().split('?')[0] || 'event-image.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // Search functionality
+    function performSearch() {
+      const searchTerm = document.getElementById('s').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      
+      cards.forEach(card => {
+        const h3 = card.querySelector('h3');
+        const eventName = h3 ? h3.textContent.toLowerCase() : '';
+        if (eventName.includes(searchTerm)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Live search as user types
+    document.getElementById('s').addEventListener('input', performSearch);
+
+    // Initial render
+    fetchEvents();
+  </script>
+</body>
+</html>
